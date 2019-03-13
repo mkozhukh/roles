@@ -24,17 +24,18 @@ func UserToContext(ctx context.Context, user *User) context.Context {
 }
 
 // ParseRights converts a string to a list of rights
-func ParseRights(name string) ([]Right, error) {
+func ParseRights(name string) []Right {
 	chunks := strings.Split(name, ",")
 	rights := make([]Right, 0)
 
-	var err error
 	for i := range chunks {
-		num, _ := strconv.Atoi(chunks[i])
-		rights = append(rights, Right(num))
+		num, err := strconv.Atoi(chunks[i])
+		if err == nil {
+			rights = append(rights, Right(num))
+		}
 	}
 
-	return rights, err
+	return rights
 }
 
 // SerializeRights converts a list of rights to a string
