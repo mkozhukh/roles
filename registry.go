@@ -2,8 +2,6 @@ package roles
 
 import (
 	"net/http"
-	"strconv"
-	"strings"
 )
 
 // Registry stores links between roles and rights
@@ -43,35 +41,6 @@ func (rg *Registry) RegisterRole(role Role, rights ...Right) {
 // NewUser returns new role object
 func (rg *Registry) NewUser(id uint, roles ...Role) *User {
 	return &User{Registry: rg, ID: id, rights: rg.GetRights(roles...)}
-}
-
-// ParseRights converts a string to a list of rights
-func (rg *Registry) ParseRights(name string) ([]Right, error) {
-	chunks := strings.Split(name, ",")
-	rights := make([]Right, 0)
-
-	var err error
-	for i := range chunks {
-		num, _ := strconv.Atoi(chunks[i])
-		rights = append(rights, Right(num))
-	}
-
-	return rights, err
-}
-
-// SerializeRights converts a list of rights to a string
-func (rg *Registry) SerializeRights(rights ...Right) string {
-	if len(rights) == 0 {
-		return ""
-	}
-
-	strs := make([]string, 0, len(rights))
-	for i := range rights {
-		code := strconv.Itoa(int(rights[i]))
-		strs = append(strs, code)
-	}
-
-	return strings.Join(strs, ",")
 }
 
 // GetRights returns all right for the role

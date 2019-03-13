@@ -1,9 +1,5 @@
 package roles
 
-import (
-	"context"
-)
-
 // User represents a single user
 type User struct {
 	ID       uint
@@ -22,23 +18,6 @@ func (u *User) Guard(right ...Right) {
 	if !u.Check(right...) {
 		panic("Access denied")
 	}
-}
-
-type rolekeyType string
-
-// UserFromContext gets current user from context
-func UserFromContext(ctx context.Context) *User {
-	user, ok := ctx.Value(rolekeyType("user")).(*User)
-	if !ok {
-		return &User{}
-	}
-
-	return user
-}
-
-// UserToContext stores user info in a context
-func UserToContext(ctx context.Context, user *User) context.Context {
-	return context.WithValue(ctx, rolekeyType("user"), user)
 }
 
 func intersection(base, search []Right) bool {
