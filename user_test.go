@@ -11,9 +11,9 @@ const someRight2 Right = 2
 const someRight3 Right = 3
 const someRight4 Right = 4
 
-const Role1 Role = 1;
-const Role2 Role = 2;
-const Role3 Role = 3;
+const Role1 Role = 1
+const Role2 Role = 2
+const Role3 Role = 3
 
 func TestRoleTestSuite(t *testing.T) {
 	suite.Run(t, new(RoleTestSuite))
@@ -27,10 +27,6 @@ type RoleTestSuite struct {
 func (suite *RoleTestSuite) BeforeTest(name, test string) {
 	suite.registry = NewRegistry()
 
-	suite.registry.RegisterRight(someRight1)
-	suite.registry.RegisterRight(someRight2)
-	suite.registry.RegisterRight(someRight3)
-
 	suite.registry.RegisterRole(Role1, someRight1, someRight2)
 	suite.registry.RegisterRole(Role2)
 	suite.registry.RegisterRole(Role3, someRight3)
@@ -40,6 +36,7 @@ func (suite *RoleTestSuite) TestEmptyRole() {
 	user := User{}
 
 	suite.False(user.Check(someRight1))
+	suite.True(user.Check())
 	suite.Panics(func() {
 		user.Guard(someRight1)
 	})
